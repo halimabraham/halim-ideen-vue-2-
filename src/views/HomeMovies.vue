@@ -22,6 +22,7 @@ export default {
 
     methods: {
         searchMovie: async function(title) {
+            let exist = 0
             const movieSearch = await axios.get(`http://www.omdbapi.com/?apikey=ee7a4dfd&t=${title}`)
             this.movie = {
                 title: movieSearch.data.Title,
@@ -30,14 +31,20 @@ export default {
                 rottenRating: movieSearch.data.Ratings[1].Value,
                 plot: movieSearch.data.Plot
             }
-            console.log(movieSearch.data.Ratings[1].Value)
 
             this.$store.state.movieTitle = this.movie.title
             this.$store.state.movieImg = this.movie.poster
             this.$store.state.releaseDate = this.movie.releaseDate
             this.$store.state.rottenRating = this.movie.rottenRating
             this.$store.state.moviePlot = this.movie.plot
-            this.$store.commit('addMovie', this.movie)
+            this.$store.state.searchHistory.map((movie) => {
+                if (movie.title == this.movie.title) {
+                    exist = 1
+                }
+            })
+            if (exist != 1) {
+                this.$store.commit('addMovie', this.movie)
+            }
         }
     },
 
