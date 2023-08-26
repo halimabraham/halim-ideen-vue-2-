@@ -33,11 +33,9 @@
       <v-spacer></v-spacer>
 
       <div class="d-flex align-center">
-        <v-text-field label="movie Title" v-model="movieInput" background-color="white" rounded class="mx-2 mt-5"></v-text-field>
+        <v-text-field label="movie Title" v-model="movieInput" background-color="white" rounded class="mx-2 mt-5" @keyup.enter="searchMovie"></v-text-field>
 
-        <router-link to="/movieDescription">
-            <v-btn @click="searchMovie">search</v-btn>
-        </router-link>
+        <v-btn @click="searchMovie">search</v-btn>
       </div>
     </v-app-bar>
 </template>
@@ -54,6 +52,8 @@ export default {
 
     movie : {},
 
+    unexistant : false
+
     // sHistory : 
   }),
 
@@ -61,50 +61,33 @@ export default {
     searchMovie: async function() {
       let exist = 0
         const movieSearch = await axios.get(`http://www.omdbapi.com/?apikey=ee7a4dfd&t=${this.movieInput}`)
-        this.movie = {
+        if (movieSearch.data.Response == "False") {
+          alert('The movie is unexistant')
+        } else {
+          this.movie = {
             title: movieSearch.data.Title,
             poster: movieSearch.data.Poster,
             releaseDate: movieSearch.data.Released,
             rottenRating: movieSearch.data.Ratings[1].Value,
             plot: movieSearch.data.Plot
-        }
-
-        this.$store.state.movieTitle = this.movie.title
-        this.$store.state.movieImg = this.movie.poster
-        this.$store.state.releaseDate = this.movie.releaseDate
-        this.$store.state.rottenRating = this.movie.rottenRating
-        this.$store.state.moviePlot = this.movie.plot
-/*         if (this.$store.state.searchHistory.length === 0) {
-          this.$store.commit('addMovie', this.movie)
-        } else { */
-        this.$store.state.searchHistory.map((movie) => {
-          if (movie.title == this.movie.title) {
-            exist = 1
           }
-        })
-        // }
-        if (exist != 1) {
-          this.$store.commit('addMovie', this.movie)
-        }
-        /* if (this.$store.state.searchHistory.length === 0) {
-          this.$store.commit('addMovie', this.movie)
-        } else { */
-          /* this.$store.state.searchHistory.map((movie) => {
-            console.log('+++')
-            console.log(movie.title)
-            console.log(this.movie.title)
+
+          this.$store.state.movieTitle = this.movie.title
+          this.$store.state.movieImg = this.movie.poster
+          this.$store.state.releaseDate = this.movie.releaseDate
+          this.$store.state.rottenRating = this.movie.rottenRating
+          this.$store.state.moviePlot = this.movie.plot
+
+          this.$store.state.searchHistory.map((movie) => {
             if (movie.title == this.movie.title) {
-                return
-            } else {
-              this.$store.commit('addMovie', this.movie)
+              exist = 1
             }
-        }) */
-        /* this.$store.state.searchHistory.forEach((movie) => {
-            if(movie.movietTitle != this.movie.title) {
-                this.$store.commit('addMovie', this.movie)
-            }
-        }) */
-        // }
+          })
+          if (exist != 1) {
+            this.$store.commit('addMovie', this.movie)
+          }
+          this.$router.push('movieDescription').catch(() => {})
+        }
     }
   },
 };
