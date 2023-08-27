@@ -33,7 +33,7 @@
       <v-spacer></v-spacer>
 
       <div class="d-flex align-center">
-        <v-text-field label="movie Title" v-model="movieInput" background-color="white" rounded class="mx-2 mt-5" @keyup.enter="searchMovie"></v-text-field>
+        <v-text-field label="movie Title" v-model="movieInput" background-color="white" rounded class="mx-2 mt-5" @keyup.enter="searchMovie" clearable></v-text-field>
 
         <v-btn @click="searchMovie">search</v-btn>
       </div>
