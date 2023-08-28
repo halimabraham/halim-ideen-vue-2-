@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1 class="subheading mx-3 my-3 text-center">MOVIES APP</h1>
-        <h2 class="subheading mx-3 my-3 text-center">Search history:</h2>
+        <h1 class="subheading mx-3 my-3 text-center">SEARCH YOUR FAVORITE MOVIE :) !</h1>
+        <h2 class="subheading mx-3 my-3 text-center grey--text">Search history:</h2>
         <v-container class="my-5">
             <v-layout row wrap class="d-flex justify-center">
                     <v-flex xs12 sm6 md4 lg3 class="mx-3 my-3" v-for="movie in sHistory" :key="movie.title">
@@ -52,6 +52,8 @@ export default {
 
     methods: {
         searchMovie: async function(title) {
+            this.$store.state.unexistant = false
+            this.$store.state.existant = true
             let exist = 0
             const movieSearch = await axios.get(`http://www.omdbapi.com/?apikey=ee7a4dfd&t=${title}`)
             this.movie = {

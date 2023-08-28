@@ -10,7 +10,9 @@ export default new Vuex.Store({
     releaseDate : '',
     rottenRating : '',
     moviePlot : '',
-    searchHistory : []
+    searchHistory : [],
+    unexistant: false,
+    existant: false
   },
   getters: {
   },

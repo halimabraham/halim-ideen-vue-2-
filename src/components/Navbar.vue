@@ -5,23 +5,6 @@
       flat
     >
       <div class="d-flex align-center">
-        <!-- <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        /> -->
         <router-link to="/">
             <v-app-bar-title class="text-uppercase white--text">
                 <span class="fint-weight-light">Movies  </span>
@@ -33,7 +16,7 @@
       <v-spacer></v-spacer>
 
       <div class="d-flex align-center">
-        <v-text-field label="movie Title" v-model="movieInput" background-color="white" rounded class="mx-2 mt-5" @keyup.enter="searchMovie" clearable></v-text-field>
+        <v-text-field label="Movie Title" v-model="movieInput" background-color="white" rounded class="mx-2 mt-5" @keyup.enter="searchMovie" clearable></v-text-field>
 
         <v-btn @click="searchMovie">search</v-btn>
       </div>
@@ -52,8 +35,6 @@ export default {
 
     movie : {},
 
-    unexistant : false
-
     // sHistory : 
   }),
 
@@ -62,8 +43,11 @@ export default {
       let exist = 0
         const movieSearch = await axios.get(`http://www.omdbapi.com/?apikey=ee7a4dfd&t=${this.movieInput}`)
         if (movieSearch.data.Response == "False") {
-          alert('The movie is unexistant')
+          this.$store.state.unexistant = true
+          this.$store.state.existant = false
         } else {
+          this.$store.state.existant = true
+          this.$store.state.unexistant = false
           if (movieSearch.data.Ratings.length == 1) {
             this.movie = {
               title: movieSearch.data.Title,
