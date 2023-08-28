@@ -1,29 +1,42 @@
 <template>
     <div>
-        <h1 class="subheading mx-3 my-3">MOVIES APP</h1>
-        <h2 class="subheading mx-3 my-3">Search history:</h2>
+        <h1 class="subheading mx-3 my-3 text-center">MOVIES APP</h1>
+        <h2 class="subheading mx-3 my-3 text-center">Search history:</h2>
         <v-container class="my-5">
-            <v-layout row wrap>
+            <v-layout row wrap class="d-flex justify-center">
                     <v-flex xs12 sm6 md4 lg3 class="mx-3 my-3" v-for="movie in sHistory" :key="movie.title">
-                        <v-card>
-                            <v-card-text>
-                                <div class="subheading">{{ movie.title }}</div>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-btn text color="grey" @click="searchMovie(movie.title)">
-                                <v-icon small left>mdi-more</v-icon>
-                                <span class="">See more</span>
-                                </v-btn>
-                            </v-card-actions>
+                        <v-card elevation="1" class="mb-3" max-height="2000">
+                            <v-row>
+                                <v-col
+                                    cols="7">
+                                    <v-card-title>
+                                        <div class="subheading">{{ movie.title }}</div>
+                                    </v-card-title>
+                                    <v-card-actions>
+                                        <v-btn text color="grey" @click="searchMovie(movie.title)">
+                                        <v-icon small left>mdi-more</v-icon>
+                                        <span class="">See more</span>
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-col>
+                                <v-col
+                                    cols="5">
+                                    <v-img
+                                        :alt="movie.title"
+                                        class="shrink mr-2"
+                                        contain 
+                                        :src="movie.poster"
+                                        transition="scale-transition"
+                                        height="200"
+                                        width="200"
+                                    >
+                                    </v-img>
+                                </v-col>
+                            </v-row>
                         </v-card>
                     </v-flex>
             </v-layout>
         </v-container>
-        <!-- <ul>
-            <router-link to="/movieDescription">
-                <li v-for="movie in sHistory" @click="searchMovie(movie.title)">{{ movie.title }}</li>
-            </router-link>
-        </ul> -->
     </div>
 </template>
 

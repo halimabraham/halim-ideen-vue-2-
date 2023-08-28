@@ -64,13 +64,24 @@ export default {
         if (movieSearch.data.Response == "False") {
           alert('The movie is unexistant')
         } else {
-          this.movie = {
-            title: movieSearch.data.Title,
-            poster: movieSearch.data.Poster,
-            releaseDate: movieSearch.data.Released,
-            rottenRating: movieSearch.data.Ratings[1].Value,
-            plot: movieSearch.data.Plot
+          if (movieSearch.data.Ratings.length == 1) {
+            this.movie = {
+              title: movieSearch.data.Title,
+              poster: movieSearch.data.Poster,
+              releaseDate: movieSearch.data.Released,
+              rottenRating: 'No rating :(',
+              plot: movieSearch.data.Plot
+            }
+          } else {
+            this.movie = {
+              title: movieSearch.data.Title,
+              poster: movieSearch.data.Poster,
+              releaseDate: movieSearch.data.Released,
+              rottenRating: movieSearch.data.Ratings[1].Value,
+              plot: movieSearch.data.Plot
+            }
           }
+          
 
           this.$store.state.movieTitle = this.movie.title
           this.$store.state.movieImg = this.movie.poster
