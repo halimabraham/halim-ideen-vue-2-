@@ -10,7 +10,7 @@
             </v-alert>
         </div>
         <div v-if="existant">
-            <v-container class="grey lighten-5">
+            <v-container>
                 <v-row no-gutters align="center" justify="center">
                     <v-col
                         cols="12">
