@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    id: '',
     movieTitle : 'default',
     movieImg : '',
     releaseDate : '',
@@ -19,9 +21,10 @@ export default new Vuex.Store({
   mutations: {
     addMovie (state, movie) {
       state.searchHistory.push(movie)
-    }
+    },
   },
   actions: {
+    
   },
   modules: {
   }

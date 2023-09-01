@@ -10,6 +10,8 @@
 <script>
 
 import Navbar from './components/Navbar.vue'
+import { collection, onSnapshot } from 'firebase/firestore'
+import { db } from '@/firebase/db'
 
 export default {
 
@@ -22,6 +24,31 @@ export default {
   data: () => ({
     //
   }),
+
+  beforeCreate() {
+    onSnapshot(collection(db, 'movies'), (querySnapshot) => {
+      this.$store.state.searchHistory = []
+      let exist = 0
+      querySnapshot.forEach((doc) => {
+        const movie = {
+          id: doc.id,
+          title: doc.data().title,
+          poster: doc.data().img,
+          releaseDate: doc.data().release,
+          rottenRating: doc.data().rating,
+          plot: doc.data().plot
+        }
+        this.$store.commit('addMovie', movie)
+      })
+    })
+  },
+
+  computed:{
+    sHistory() {
+        return this.$store.state.searchHistory
+    },
+  }
+
 };
 </script>
 

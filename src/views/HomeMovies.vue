@@ -14,8 +14,14 @@
                                     </v-card-title>
                                     <v-card-actions>
                                         <v-btn text color="grey" @click="searchMovie(movie.title)">
-                                        <v-icon small left>mdi-more</v-icon>
-                                        <span class="">See more</span>
+                                            <v-icon small left>mdi-more</v-icon>
+                                            <span class="">See more</span>
+                                        </v-btn>
+                                    </v-card-actions>
+                                    <v-card-actions>
+                                        <v-btn text color="grey" @click="deleteMovie(movie.id)">
+                                            <v-icon small left>mdi-delete</v-icon>
+                                            <span class="">Delete</span>
                                         </v-btn>
                                     </v-card-actions>
                                 </v-col>
@@ -42,6 +48,8 @@
 
 <script>
 import axios from 'axios'
+import { doc, deleteDoc } from 'firebase/firestore'
+import { db } from '@/firebase/db'
 
 export default {
     name: 'home-movies',
@@ -78,6 +86,11 @@ export default {
                 this.$store.commit('addMovie', this.movie)
             }
             this.$router.push('movieDescription')
+        },
+        deleteMovie: function(id) {
+            let docRef = ''
+            docRef = doc(db, 'movies', id)
+            deleteDoc(docRef)
         }
     },
 

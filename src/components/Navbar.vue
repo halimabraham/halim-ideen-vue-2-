@@ -25,6 +25,8 @@
 
 <script>
 import axios from 'axios'
+import { collection, addDoc } from 'firebase/firestore'
+import { db } from '@/firebase/db'
 
 export default {
 
@@ -45,6 +47,7 @@ export default {
         if (movieSearch.data.Response == "False") {
           this.$store.state.unexistant = true
           this.$store.state.existant = false
+          this.$router.push('movieDescription').catch(() => {})
         } else {
           this.$store.state.existant = true
           this.$store.state.unexistant = false
@@ -79,7 +82,13 @@ export default {
             }
           })
           if (exist != 1) {
-            this.$store.commit('addMovie', this.movie)
+            addDoc(collection(db, 'movies'), {
+              title: this.movie.title,
+              img: this.movie.poster,
+              release: this.movie.releaseDate,
+              rating: this.movie.rottenRating,
+              plot: this.movie.plot
+            })
           }
           this.$router.push('movieDescription').catch(() => {})
         }
