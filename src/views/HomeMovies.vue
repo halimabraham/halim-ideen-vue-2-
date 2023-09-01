@@ -77,14 +77,6 @@ export default {
             this.$store.state.releaseDate = this.movie.releaseDate
             this.$store.state.rottenRating = this.movie.rottenRating
             this.$store.state.moviePlot = this.movie.plot
-            this.$store.state.searchHistory.map((movie) => {
-                if (movie.title == this.movie.title) {
-                    exist = 1
-                }
-            })
-            if (exist != 1) {
-                this.$store.commit('addMovie', this.movie)
-            }
             this.$router.push('movieDescription')
         },
         deleteMovie: function(id) {

@@ -28,6 +28,7 @@ export default {
   beforeCreate() {
     onSnapshot(collection(db, 'movies'), (querySnapshot) => {
       this.$store.state.searchHistory = []
+      this.$store.state.searchHistoryMap.clear()
       let exist = 0
       querySnapshot.forEach((doc) => {
         const movie = {
@@ -38,16 +39,11 @@ export default {
           rottenRating: doc.data().rating,
           plot: doc.data().plot
         }
-        this.$store.commit('addMovie', movie)
+        this.$store.commit('addMovietoArray', movie)
+        this.$store.commit('addMovietoMap', {id: movie.title, movie: movie})
       })
     })
   },
-
-  computed:{
-    sHistory() {
-        return this.$store.state.searchHistory
-    },
-  }
 
 };
 </script>

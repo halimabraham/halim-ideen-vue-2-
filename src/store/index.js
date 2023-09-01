@@ -13,15 +13,20 @@ export default new Vuex.Store({
     rottenRating : '',
     moviePlot : '',
     searchHistory : [],
+    searchHistoryMap : new Map(),
     unexistant: false,
     existant: false
   },
   getters: {
   },
   mutations: {
-    addMovie (state, movie) {
+    addMovietoArray (state, movie) {
       state.searchHistory.push(movie)
     },
+    addMovietoMap (state, payload) {
+      const {id, movie} = payload
+      state.searchHistoryMap.set(id, movie)
+    }
   },
   actions: {
     

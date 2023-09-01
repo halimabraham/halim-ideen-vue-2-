@@ -69,18 +69,17 @@ export default {
             }
           }
           
-
+          this.$store.state.id = 
           this.$store.state.movieTitle = this.movie.title
           this.$store.state.movieImg = this.movie.poster
           this.$store.state.releaseDate = this.movie.releaseDate
           this.$store.state.rottenRating = this.movie.rottenRating
           this.$store.state.moviePlot = this.movie.plot
 
-          this.$store.state.searchHistory.map((movie) => {
-            if (movie.title == this.movie.title) {
-              exist = 1
-            }
-          })
+          if (this.$store.state.searchHistoryMap.has(this.movie.title)) {
+            exist = 1
+          }
+
           if (exist != 1) {
             addDoc(collection(db, 'movies'), {
               title: this.movie.title,

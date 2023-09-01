@@ -65,6 +65,15 @@
                                     <p >{{ plot }}</p>
                                 </v-col>
                             </v-row>
+                            <v-row no-gutters>
+                                <v-col 
+                                    cols="12">
+                                    <v-btn text color="grey" @click="deleteMovie">
+                                        <v-icon small left>mdi-delete</v-icon>
+                                        <span class="">Delete from history</span>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
                         </template>
                     </v-col>
                 </v-row>
@@ -74,8 +83,24 @@
 </template>
 
 <script>
+import { query, collection, where, getDocs, deleteDoc, doc } from 'firebase/firestore'
+import { db } from '@/firebase/db'
 
 export default {
+
+    methods : {
+        deleteMovie : async function () {
+            const q = query(collection(db, 'movies'), where('title', '==', this.$store.state.movieTitle))
+            const querySnapshot = await getDocs(q);
+            if (querySnapshot.docs.length > 0) {
+                const foundDocument = querySnapshot.docs[0]
+                const documentId = foundDocument.id
+
+                await deleteDoc(doc(db, 'movies', documentId))
+            }
+        }
+    },
+
     computed:{
         title() {
             return this.$store.state.movieTitle
