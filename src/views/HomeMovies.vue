@@ -2,6 +2,16 @@
     <div>
         <h1 class="subheading mx-3 my-3 text-center">SEARCH YOUR FAVORITE MOVIE :) !</h1>
         <h2 class="subheading mx-3 my-3 text-center grey--text">Search history:</h2>
+        <div class="d-flex justify-center">
+            <v-btn class="mx-3 my-3" @click="orderLast">
+                <v-icon small left>mdi-arrow-up-box</v-icon>
+                <span class="">Last search</span>
+            </v-btn>
+            <v-btn class="mx-3 my-3" @click="orderFirst">
+                <v-icon small left>mdi-arrow-down-box</v-icon>
+                <span class="">First search</span>
+            </v-btn>
+        </div>
         <v-container class="my-5">
             <v-layout row wrap class="d-flex justify-center">
                     <v-flex xs12 sm6 md4 lg3 class="mx-3 my-3" v-for="movie in sHistory" :key="movie.title">
@@ -83,6 +93,12 @@ export default {
             let docRef = ''
             docRef = doc(db, 'movies', id)
             deleteDoc(docRef)
+        },
+        orderFirst: function() {
+            this.sHistory.sort((a, b) => a.date.seconds - b.date.seconds)
+        },
+        orderLast: function() {
+            this.sHistory.sort((a, b) => b.date.seconds - a.date.seconds)
         }
     },
 

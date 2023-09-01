@@ -25,7 +25,7 @@
 
 <script>
 import axios from 'axios'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '@/firebase/db'
 
 export default {
@@ -86,7 +86,8 @@ export default {
               img: this.movie.poster,
               release: this.movie.releaseDate,
               rating: this.movie.rottenRating,
-              plot: this.movie.plot
+              plot: this.movie.plot,
+              date: serverTimestamp()
             })
           }
           this.$router.push('movieDescription').catch(() => {})

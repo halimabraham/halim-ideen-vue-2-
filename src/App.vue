@@ -37,7 +37,8 @@ export default {
           poster: doc.data().img,
           releaseDate: doc.data().release,
           rottenRating: doc.data().rating,
-          plot: doc.data().plot
+          plot: doc.data().plot,
+          date: doc.data().date
         }
         this.$store.commit('addMovietoArray', movie)
         this.$store.commit('addMovietoMap', {id: movie.title, movie: movie})
