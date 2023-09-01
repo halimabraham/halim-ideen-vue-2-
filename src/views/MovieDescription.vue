@@ -97,6 +97,7 @@ export default {
                 const documentId = foundDocument.id
 
                 await deleteDoc(doc(db, 'movies', documentId))
+                this.$router.push('/')
             }
         }
     },
