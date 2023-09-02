@@ -11,6 +11,10 @@
                 <v-icon small left>mdi-arrow-down-box</v-icon>
                 <span class="">First search</span>
             </v-btn>
+            <v-btn class="red mx-3 my-3" @click="deleteAll">
+                <v-icon small left>mdi-delete</v-icon>
+                <span class="">Delete All</span>
+            </v-btn>
         </div>
         <v-container class="my-5">
             <v-layout row wrap class="d-flex justify-center">
@@ -58,7 +62,7 @@
 
 <script>
 import axios from 'axios'
-import { doc, deleteDoc } from 'firebase/firestore'
+import { doc, deleteDoc, collection, query, getDocs } from 'firebase/firestore'
 import { db } from '@/firebase/db'
 
 export default {
@@ -99,6 +103,14 @@ export default {
         },
         orderLast: function() {
             this.sHistory.sort((a, b) => b.date.seconds - a.date.seconds)
+        },
+        deleteAll: async function() {
+            const movies = collection(db, 'movies')
+            const q = query(movies)
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach(async (doc) => {
+                await deleteDoc(doc.ref);
+            });
         }
     },
 
