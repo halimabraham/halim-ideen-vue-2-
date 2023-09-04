@@ -122,7 +122,6 @@ export default {
             });
         },
         addFavorite: async function(movie) {
-            // console.log(id)
             const q = doc(db, 'movies', movie.id)
             const updateData = {
                 favorite: !movie.favorite
