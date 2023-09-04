@@ -14,6 +14,8 @@ export default new Vuex.Store({
     moviePlot : '',
     searchHistory : [],
     searchHistoryMap : new Map(),
+    favorites: [],
+    favoritesMap : new Map(),
     unexistant: false,
     existant: false
   },
@@ -26,6 +28,13 @@ export default new Vuex.Store({
     addMovietoMap (state, payload) {
       const {id, movie} = payload
       state.searchHistoryMap.set(id, movie)
+    },
+    addMovietoFavorites (state, movie) {
+      state.favorites.push(movie)
+    },
+    addFavoritetoMap (state, payload) {
+      const {id, movie} = payload
+      state.favoritesMap.set(id, movie)
     }
   },
   actions: {

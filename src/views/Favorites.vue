@@ -1,30 +1,9 @@
 <template>
     <div>
-        <h1 class="subheading mx-3 my-3 text-center">SEARCH YOUR FAVORITE MOVIE :) !</h1>
-        <h2 class="subheading mx-3 my-3 text-center grey--text">Search history:</h2>
-        <div class="d-flex justify-center">
-            <v-btn class="mx-3 my-3" @click="orderLast">
-                <v-icon small left>mdi-arrow-up-box</v-icon>
-                <span class="">Last search</span>
-            </v-btn>
-            <v-btn class="mx-3 my-3" @click="orderFirst">
-                <v-icon small left>mdi-arrow-down-box</v-icon>
-                <span class="">First search</span>
-            </v-btn>
-            <v-btn class="red mx-3 my-3" @click="deleteAll">
-                <v-icon small left>mdi-delete</v-icon>
-                <span class="">Delete All</span>
-            </v-btn>
-            <router-link to="/favorites">
-                <v-btn class="primary mx-3 my-3">
-                    <v-icon small left>mdi-star</v-icon>
-                    <span class="">Favorites</span>
-                </v-btn>
-            </router-link>
-        </div>
+        <h1 class="subheading mx-3 my-3 text-center">List of your Favorite movies :)</h1>
         <v-container class="my-5">
             <v-layout row wrap class="d-flex justify-center">
-                    <v-flex xs12 sm6 md4 lg3 class="mx-3 my-3" v-for="movie in sHistory" :key="movie.title">
+                    <v-flex xs12 sm6 md4 lg3 class="mx-3 my-3" v-for="movie in favorites" :key="movie.title">
                         <v-card elevation="1" class="mb-3" max-height="2000">
                             <v-row>
                                 <v-col
@@ -39,10 +18,6 @@
                                         </v-btn>
                                     </v-card-actions>
                                     <v-card-actions>
-                                        <v-btn text color="grey" @click="deleteMovie(movie.id)">
-                                            <v-icon small left>mdi-delete</v-icon>
-                                            <span class="">Delete</span>
-                                        </v-btn>
                                         <v-btn text :class="showFavorite" @click="addFavorite(movie)">
                                             <v-icon small left>mdi-heart</v-icon>
                                         </v-btn>
@@ -68,20 +43,15 @@
         </v-container>
     </div>
 </template>
-
 <script>
+
 import axios from 'axios'
-import { doc, deleteDoc, collection, query, getDocs, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '@/firebase/db'
 
 export default {
-    name: 'home-movies',
 
-    data: () => ({
-        movie : {}
-    }),
-
-    methods: {
+    methods : {
         searchMovie: async function(title) {
             this.$store.state.unexistant = false
             this.$store.state.existant = true
@@ -102,42 +72,26 @@ export default {
             this.$store.state.moviePlot = this.movie.plot
             this.$router.push('movieDescription')
         },
-        deleteMovie: function(id) {
-            let docRef = ''
-            docRef = doc(db, 'movies', id)
-            deleteDoc(docRef)
-        },
-        orderFirst: function() {
-            this.sHistory.sort((a, b) => a.date.seconds - b.date.seconds)
-        },
-        orderLast: function() {
-            this.sHistory.sort((a, b) => b.date.seconds - a.date.seconds)
-        },
-        deleteAll: async function() {
-            const movies = collection(db, 'movies')
-            const q = query(movies)
-            const querySnapshot = await getDocs(q)
-            querySnapshot.forEach(async (doc) => {
-                await deleteDoc(doc.ref);
-            });
-        },
         addFavorite: async function(movie) {
-            // console.log(id)
             const q = doc(db, 'movies', movie.id)
             const updateData = {
+                id: movie.id,
+                title: movie.title,
+                img: movie.poster,
+                releas: movie.releaseDate,
+                rating: movie.rottenRating,
+                plot: movie.plot,
+                date: movie.date,
                 favorite: !movie.favorite
             }
             await updateDoc(q, updateData);
         }
-    },
+    },  
 
     computed:{
-        sHistory() {
-            return this.$store.state.searchHistory
+        favorites() {
+            return this.$store.state.favorites
         },
-        showFavorite() {
-
-        }
     }
 }
 </script>

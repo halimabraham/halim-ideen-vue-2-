@@ -87,7 +87,8 @@ export default {
               release: this.movie.releaseDate,
               rating: this.movie.rottenRating,
               plot: this.movie.plot,
-              date: serverTimestamp()
+              date: serverTimestamp(),
+              favorite: false 
             })
           }
           this.$router.push('movieDescription').catch(() => {})
