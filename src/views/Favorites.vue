@@ -18,7 +18,7 @@
                                         </v-btn>
                                     </v-card-actions>
                                     <v-card-actions>
-                                        <v-btn text :class="showFavorite" @click="addFavorite(movie)">
+                                        <v-btn text :color="(movie.favorite ? 'red' : 'grey')" @click="addFavorite(movie)">
                                             <v-icon small left>mdi-heart</v-icon>
                                         </v-btn>
                                     </v-card-actions>

@@ -43,7 +43,7 @@
                                             <v-icon small left>mdi-delete</v-icon>
                                             <span class="">Delete</span>
                                         </v-btn>
-                                        <v-btn text :class="showFavorite" @click="addFavorite(movie)">
+                                        <v-btn text :color="(movie.favorite ? 'red' : 'grey')" @click="addFavorite(movie)">
                                             <v-icon small left>mdi-heart</v-icon>
                                         </v-btn>
                                     </v-card-actions>
@@ -133,9 +133,6 @@ export default {
     computed:{
         sHistory() {
             return this.$store.state.searchHistory
-        },
-        showFavorite() {
-
         }
     }
 }
